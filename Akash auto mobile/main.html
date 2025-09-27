@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Page</title>
+  <link rel="stylesheet" href="./main.css">
+   <link rel="icon" href="./favicon.png">
+</head>
+<body>
+  <marquee behavior="" direction="right">Wel come to akash-automobile-service-center</marquee>
+  <header class="main-header">
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="main.html">Home</a></li>
+        <li><a href="./salesowner.html">Sales</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <!-- <li><a href="contact.html">Contact</a></li> -->
+        <li><a href="product.html">Product</a></li>
+        <li><a href="./Employee.html">Employee</a></li>
+        <li><a href="billing.html">Billing</a></li>
+      </ul>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <div class="content">
+    <h1>Welcome to the Home Page</h1>
+    <p>This page is only accessible after login.</p>
+  </div>
+<h1>Why Choose Us?</h1>
+    <section class="services-grid why-choose-us-grid">
+      <div class="cards">
+
+        <h2>Quality Service</h2>
+        <p>We are committed to providing the highest quality service to our customers. Our experienced technicians use
+          the best tools and techniques to ensure your vehicle is in top condition.</p>
+      </div>
+      <div class="cards">
+        <h2>Affordable Prices</h2>
+        <p>We believe that quality service should be affordable. We offer competitive pricing without compromising on
+          the quality of our work.</p>
+      </div>
+      <div class="cards">
+
+        <h2>Excellent Customer Service</h2>
+        <p>Our friendly staff is always ready to assist you with any questions or concerns. We value your feedback and
+          strive to improve our services continuously.</p>
+      </div>
+    </section>
+    <div class="content-section">
+      <h3>Overview</h3>
+      <p>Aakash Service Center in Keshav Nagar-Mundhwa, Pune is a renowned automobile repair service, providing expert
+        vehicle maintenance and repair solutions. Known for its reliable services and customer-first approach, this
+        repair center has become a trusted destination for vehicle owners looking for high-quality automotive care.</p>
+
+
+
+      <h3>Establishment Details</h3>
+      <p>Established in 2017, Aakash Service Center in Keshav Nagar-Mundhwa, Pune has built a solid reputation for
+        quality work and customer satisfaction. The repair center is rated 4.7 based on 89 customer reviews, making it
+        one of the most reliable automotive repair shops in the area. Conveniently located near Near New Orbis School,
+        Aakash Service Center in Keshav Nagar-Mundhwa, Pune is easily accessible for drivers looking for expert vehicle
+        care.</p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="./feedback.html">Feedback</a></li>
+        <li><a href="./services.html">Services</a></li>
+        <li><a href="./contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section contact-us">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-phone-alt"></i> <a href="tel:+917987185354">+91-7987185354</a></p>
+      <p><i class="fas fa-envelope"></i> <a href="mailto:ramchandrabedge79@gmail.com">ramchandrabedge79@gmail.com</a></p>
+      <p><i class="fas fa-map-marker-alt"></i> 
+        <a href="https://maps.app.goo.gl/fbdWtbchU8VbZCTG9?g_st=aw" target="_blank" rel="noopener noreferrer">
+          Manjari Rd, near graffiti society, Ward No 2, Keshav Nagar, Mundhwa, Pune, Maharashtra 411036
+        </a>
+      </p>
+    </div>
+<!-- Add Font Awesome in <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="footer-section social">
+  <h3>Follow Us</h3>
+  <div class="social-icons">
+    <a href="https://www.facebook.com" target="_blank" title="Facebook" class="facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com" target="_blank" title="Instagram" class="instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://maps.app.goo.gl/fbdWtbchU8VbZCTG9?g_st=aw" target="_blank" title="Location" class="location">
+      <i class="fas fa-map-marker-alt"></i>
+    </a>
+  </div>
+</div>
+<script>
+  document.querySelectorAll(".social-icons a").forEach(icon => {
+    icon.addEventListener("click", function() {
+      console.log("Opening: " + this.title);
+    });
+  });
+</script>
+
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>Total Visitors: <span id="visitor-count">0</span></p>
+    <p>&copy; 2025 Akash Automobile Service Center. All rights reserved.</p>
+  </div>
+</footer>
+
+  <script>
+    window.onload = function () {
+      const visitorCountElem = document.getElementById('visitor-count');
+      if (visitorCountElem) {
+        let count = localStorage.getItem('visitorCount');
+        if (!count) {
+          count = 0;
+        }
+        count = parseInt(count, 10) + 1;
+        localStorage.setItem('visitorCount', count);
+        visitorCountElem.textContent = count;
+      }
+    };
+  </script>
+
+
+
+  <script>
+    // Check if user is logged in
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "index.html"; // redirect to login
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

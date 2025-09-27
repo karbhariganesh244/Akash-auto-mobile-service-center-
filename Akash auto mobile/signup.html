@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account | Akash Automobile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./favicon.png">
+  <link rel="stylesheet" href="signup.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission by default
+
+    // Clear previous error messages if any
+    let existingErrors = document.querySelectorAll('.error-message');
+    existingErrors.forEach(err => err.remove());
+
+    const fullname = document.getElementById('fullname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+
+    let valid = true;
+
+    // Simple email regex check
+    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+    function showError(inputElement, message) {
+      const error = document.createElement('div');
+      error.className = 'error-message';
+      error.style.color = 'red';
+      error.style.fontSize = '0.9em';
+      error.style.marginTop = '4px';
+      error.textContent = message;
+      inputElement.parentNode.appendChild(error);
+    }
+
+    if (!fullname) {
+      showError(document.getElementById('fullname'), 'Full name is required');
+      valid = false;
+    }
+
+    if (!email) {
+      showError(document.getElementById('email'), 'Email is required');
+      valid = false;
+    } else if (!emailRegex.test(email)) {
+      showError(document.getElementById('email'), 'Please enter a valid email');
+      valid = false;
+    }
+
+    if (!username) {
+      showError(document.getElementById('username'), 'Username is required');
+      valid = false;
+    }
+
+    if (!password) {
+      showError(document.getElementById('password'), 'Password is required');
+      valid = false;
+    } else if (password.length < 6) {
+      showError(document.getElementById('password'), 'Password must be at least 6 characters');
+      valid = false;
+    }
+
+    if (!confirm) {
+      showError(document.getElementById('confirm'), 'Please confirm your password');
+      valid = false;
+    } else if (password !== confirm) {
+      showError(document.getElementById('confirm'), 'Passwords do not match');
+      valid = false;
+    }
+
+    if (valid) {
+      alert('Signup successful! You can now submit the form or redirect.');
+      // You can proceed with form submission here
+      // e.g. this.submit();  or send data via fetch/AJAX
+    }
+  });
+</script>
+
+</head>
+<body>
+
+  <div class="signup-container">
+    <div class="signup-box">
+      <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+      <form>
+        <div class="input-group">
+          <label for="fullname"><i class="fas fa-user"></i> Full Name</label>
+          <input type="text" id="fullname" placeholder="Enter your full name" required>
+        </div>
+        <div class="input-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="username"><i class="fas fa-user-circle"></i> Username</label>
+          <input type="text" id="username" placeholder="Choose a username" required>
+        </div>
+        <div class="input-group">
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="password" placeholder="Create a password" required>
+        </div>
+        <div class="input-group">
+          <label for="confirm"><i class="fas fa-lock"></i> Confirm Password</label>
+          <input type="password" id="confirm" placeholder="Confirm password" required>
+        </div>
+        <button type="submit">Sign Up</button>
+        <p class="login-link">Already have an account? <a href="./login.html">Login</a> </p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

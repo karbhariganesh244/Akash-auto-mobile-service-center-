@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: ghostwhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    fieldset {
+      border: 2px solid #4CAF50;
+      padding: 20px 30px;
+      width: 320px;
+      border-radius: 12px;
+      background-color: whitesmoke;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 12px;
+      margin: 10px 0;
+      width: 90%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
+      outline: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #error {
+      color: red;
+      margin-top: 12px;
+      font-size: 14px;
+      min-height: 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .links {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <link rel="icon" href="./favicon.png">
+</head>
+<body>
+  <form onsubmit="login(event)">
+    <fieldset>
+      <h2>Login to Access Website</h2>
+      <input type="text" id="username" placeholder="Enter Username" required><br>
+      <input type="password" id="password" placeholder="Enter Password" required><br>
+      <button type="submit">Login</button>
+      <p id="error"></p>
+      <div class="links">
+        <a href="forgot.html">Forgot password?</a> | 
+        
+        <a href="Home.html">Back</a>
+      </div>
+    </fieldset>
+  </form>
+
+  <script>
+    function login(event) {
+      event.preventDefault(); // Prevent form refresh
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorMsg = document.getElementById("error");
+
+      // Dummy credentials
+      if (username === "Ganesh" && password === "Ganesh@123") {
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "main.html"; // Redirect to main page
+      } else {
+        errorMsg.textContent = "❌ Invalid username or password";
+        errorMsg.style.opacity = "1";
+        setTimeout(() => errorMsg.style.opacity = "0", 500); // Hide after 2.5s
+      }
+    }
+  </script>
+</body>
+</html>

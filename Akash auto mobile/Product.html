@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      border: 2px solid #ec2121;
+      margin-bottom: 20px;
+      margin: auto;
+      border-radius: 10px;
+    }
+    th, td {
+      border: 2px solid #870505;
+      padding: 10px;
+      text-align: left;
+    }
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    input{
+      padding: 5px;
+      border: 2px solid #ec2121;
+      border-radius: 5px;
+      width: 200px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    input:hover {
+      border-color: #ec2121;
+      outline: none;
+      box-shadow: 0 0 5px rgba(236, 33, 33, 0.5);
+      transition: border-color 0.3s ease;
+      padding: 10px 25px;
+    }
+    button:hover {
+      background-color: green;
+      color: white;
+      transition: background-color 0.3s ease;
+      padding: 5px 15px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    input[type="text"], input[type="number"] {
+      width: 90%;
+      padding: 5px;
+    }
+    
+  </style>
+ <link rel="icon" href="./favicon.png">
+</head>
+<body>
+  <h1>Product</h1>
+  <p>Welcome to the Product page. Here you can find various products offered by Akash Automobile Service Center.</p>
+
+  <!-- Form to add new products -->
+  <div id="addProductForm">
+    <input type="text" id="newName" placeholder="Product Name" />
+    <br>
+    <input type="number" id="newPrice" placeholder="Price" /><br>
+    <button onclick="addProduct()">Add Product</button>
+  </div>
+
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>Serial No</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Existing products -->
+      <tr>
+        <td></td>
+        <td>Engine Oil</td>
+        <td>30</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Brake Pads</td>
+        <td>50</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Tire Rotation Service</td>
+        <td>20</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Battery Replacement</td>
+        <td>100</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Air Filter</td>
+        <td>15</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Windshield Wipers</td>
+        <td>10</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Headlight Bulbs</td>
+        <td>25</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Fuel Filter</td>
+        <td>18</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function updateSerialNumbers() {
+      const rows = document.querySelectorAll('#productTable tbody tr');
+      rows.forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+      });
+    }
+
+    function addProduct() {
+      const name = document.getElementById('newName').value.trim();
+      const price = document.getElementById('newPrice').value.trim();
+
+      if (!name || !price) {
+        alert('Please fill all fields to add a product.');
+        return;
+      }
+
+      const tbody = document.querySelector('#productTable tbody');
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td></td>
+        <td>${name}</td>
+        <td>${price}</td>
+        <td><button onclick="editProduct(this)">Edit</button></td>
+        <td><button onclick="deleteProduct(this)">Delete</button></td>
+      `;
+
+      tbody.appendChild(tr);
+      updateSerialNumbers();
+      updateProductSelect();
+
+      // Clear inputs
+      document.getElementById('newName').value = '';
+      document.getElementById('newPrice').value = '';
+    }
+
+    function deleteProduct(button) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+        updateSerialNumbers();
+        updateProductSelect();
+      }
+    }
+
+    function editProduct(button) {
+      const row = button.parentElement.parentElement;
+      const cells = row.querySelectorAll('td');
+
+      if (button.textContent === 'Edit') {
+        // Convert to input fields (skip serial no column)
+        cells[1].innerHTML = `<input type="text" value="${cells[1].textContent}">`;
+        cells[2].innerHTML = `<input type="number" value="${cells[2].textContent}">`;
+
+        button.textContent = 'Save';
+
+        // Change delete button to cancel
+        const cancelBtn = cells[4].querySelector('button');
+        cancelBtn.textContent = 'Cancel';
+      } else {
+        // Save edited values
+        const nameInput = cells[1].querySelector('input').value.trim();
+        const priceInput = cells[2].querySelector('input').value.trim();
+
+        if (!nameInput || !priceInput) {
+          alert('Please fill all fields before saving.');
+          return;
+        }
+
+        cells[1].textContent = nameInput;
+        cells[2].textContent = priceInput;
+
+        button.textContent = 'Edit';
+
+        // Restore delete button text
+        const cancelBtn = cells[4].querySelector('button');
+        cancelBtn.textContent = 'Delete';
+
+        updateProductSelect();
+      }
+    }
+
+    // Cancel edit function attached to Delete button when editing
+    document.querySelector('#productTable tbody').addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON' && e.target.textContent === 'Cancel') {
+        const row = e.target.parentElement.parentElement;
+        const cells = row.querySelectorAll('td');
+
+        // Restore original text from inputs without saving changes
+        cells[1].textContent = cells[1].querySelector('input').defaultValue;
+        cells[2].textContent = cells[2].querySelector('input').defaultValue;
+
+        // Change buttons back
+        row.querySelector('button:nth-child(1)').textContent = 'Edit';
+        e.target.textContent = 'Delete';
+      }
+    });
+
+    // Initialize serial numbers on page load
+    updateSerialNumbers();
+
+    // Billing feature code:
+
+    const productSelect = document.getElementById('productSelect');
+    const billingBody = document.querySelector('#billingProducts tbody');
+    const billingTotal = document.getElementById('billingTotal');
+
+    function updateProductSelect() {
+      // Clear current options
+      productSelect.innerHTML = '';
+
+      // Fetch all products from productTable
+      const rows = document.querySelectorAll('#productTable tbody tr');
+
+      rows.forEach(row => {
+        const name = row.cells[1].textContent;
+        const price = row.cells[2].textContent;
+
+        const option = document.createElement('option');
+        option.value = price;
+        option.textContent = name;
+        productSelect.appendChild(option);
+      });
+    }
+
+    // Call it initially to populate dropdown
+    updateProductSelect();
+
+    let billItems = [];
+    function addToBill() {
+      const selectedIndex = productSelect.selectedIndex;
+      if (selectedIndex < 0) return; // no selection
+
+      const selectedOption = productSelect.options[selectedIndex];
+      const productName = selectedOption.textContent;
+      const productPrice = Number(selectedOption.value);
+
+    }
+
+  </script>
+</body>
+</html>

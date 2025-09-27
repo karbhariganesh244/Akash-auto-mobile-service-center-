@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="icon" href="./favicon.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdf6e4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      color: #e51e49;
+      margin: 20px;
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover {
+      color: #333;
+    }
+
+    .contact-card {
+      max-width: 700px;
+      margin: 20px auto 80px;
+      padding: 30px;
+      background: #fff;
+      border-radius: 12px;
+      border: 2px solid #e51e49;
+      box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-card legend {
+      font-size: 26px;
+      color: #e51e49;
+      font-weight: bold;
+      padding: 0 10px;
+    }
+
+    .contact-card p {
+      font-size: 18px;
+      margin: 15px 0;
+      line-height: 1.6;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #444;
+      margin-right: 8px;
+    }
+
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #e51e49;
+      transition: color 0.3s;
+    }
+
+    .map-link:hover {
+      color: #333;
+    }
+
+    .map-link img {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid #e51e49;
+    }
+
+    @media (max-width: 600px) {
+      .contact-card {
+        margin: 40px 15px;
+        padding: 20px;
+      }
+      .contact-card p {
+        font-size: 16px;
+      }
+    }
+  </style>
+   <link rel="icon" href="./favicon.png">
+</head>
+<body>
+
+  <!-- Back to home button -->
+  <a href="home.html" class="back-btn">← Back to Home</a>
+
+  <fieldset class="contact-card">
+    <legend>Contact Us</legend>
+    
+    <p><span class="label">📍 Address:</span> Manjari Rd, near Graffiti Society, Ward No 2, Keshav Nagar, Mundhwa, Pune, Maharashtra 411036</p>
+    <p><span class="label">📞 Contact:</span> +91-7987185354</p>
+    <p><span class="label">📧 Email:</span> ramchandrabedge21@gmail.com</p>
+
+    <a class="map-link" href="https://maps.app.goo.gl/fbdWtbchU8VbZCTG9?g_st=aw" target="_blank">
+      <img src="./img/Map.png" alt="Map"> Get Directions
+    </a>
+  </fieldset>
+</body>
+</html>

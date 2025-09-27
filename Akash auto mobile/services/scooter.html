@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scooter Series</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    /* Reset & basics */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #222;
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Main heading */
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 40px;
+      color: #28a745;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    /* Grid Layout */
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 0 10px;
+      text-align: left;
+    }
+
+    /* Each card */
+    .series-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 0;
+      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .series-card:hover {
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+      transform: translateY(-8px);
+    }
+
+    .series-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+
+    /* Content inside card */
+    .series-card h2 {
+      color: #155724;
+      font-weight: 700;
+      margin: 20px 20px 10px;
+      font-size: 1.6rem;
+    }
+
+    .series-card p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin: 0 20px 20px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      body {
+        padding: 25px 10px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+      }
+
+      .series-card h2 {
+        font-size: 1.4rem;
+      }
+
+      .series-card p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Scooter Series</h1>
+    <section class="series-grid">
+
+      <article class="series-card">
+        <img src="../img/services.img/scooter/s1.png" alt="Pleasure Series" />
+        <h2>Pleasure Series</h2>
+        <p>Features the Pleasure Plus and Pleasure Plus Xtec.</p>
+      </article>
+
+      <article class="series-card">
+        <img src="../img/services.img/scooter/s2.png" alt="Xoom Series" />
+        <h2>Xoom Series</h2>
+        <p>Offers the Xoom 110, Xoom 125, and Xoom 160.</p>
+      </article>
+
+      <article class="series-card">
+        <img src="../img/services.img/scooter/s3.png" alt="Destini Series" />
+        <h2>Destini Series</h2>
+        <p>Includes the Destini 125 and Destini Prime.</p>
+      </article>
+
+      <article class="series-card">
+        <img src="../img/services.img/scooter/s4.png" alt="Maestro Series" />
+        <h2>Maestro Series</h2>
+        <p>Features the Maestro Edge 110 and Maestro Edge 125.</p>
+      </article>
+
+    </section>
+  </main>
+</body>
+</html>

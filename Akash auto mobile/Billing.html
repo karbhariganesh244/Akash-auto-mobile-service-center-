@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Billing - Akash Automobile Service Center</title>
+    <link rel="stylesheet" href="./Billing.css">
+     <link rel="icon" href="./favicon.png">
+    <style>
+        /* Styles for screen display */
+        #customerDetails.print-only {
+            display: none; /* Hidden by default on screen */
+        }
+
+        /* Styles for print media */
+        @media print {
+            .info-row {
+                display: none; /* Hide input fields and labels when printing */
+            }
+            #customerDetails.print-only {
+                display: block; /* Show customer details for printing */
+            }
+            /* Hide buttons and transaction section when printing */
+            #productSection,
+            #saveTransactionBtn,
+            #printBillBtn,
+            #transactionsSection,
+            .remove-btn,
+            .delete-transaction-btn,
+            #signatureSection > div:first-child { /* Hide Akash Kumar Signature as it's not a customer signature */
+                display: none;
+            }
+            /* Adjust table layout for printing */
+            #billingProducts {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            #billingProducts th,
+            #billingProducts td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+            }
+            #billingTotal {
+                text-align: right;
+                margin-top: 20px;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+            #billingSection {
+                border: none; /* Remove border for cleaner print */
+                box-shadow: none; /* Remove shadow for cleaner print */
+                padding: 0;
+            }
+            header, #customerDetails, #billingProducts, #billingTotal, #signatureSection {
+                margin-bottom: 10px;
+            }
+            #signatureSection {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 50px;
+                padding: 0 20px;
+            }
+            #signatureSection div {
+                border-top: 1px solid #000;
+                padding-top: 5px;
+                width: 45%;
+                text-align: center;
+            }
+            /* Ensure customer signature is visible */
+            #signatureSection > div:last-child {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="billingSection">
+    <header>
+        <h1>Akash Automobile Service Center</h1>
+        <p>Owner: Ramchandra Bedge</p>
+        <p>Manjari Rd, near graffiti society, Ward No 2,<br> Keshav Nagar, Mundhwa, Pune, Maharashtra 411036</p>
+        <p>Phone: +91 <span style="color: blue;">73871 85354</span> </p>
+    </header>
+
+    <div class="info-row">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" placeholder="Enter customer name" required />
+    </div>
+    <div class="info-row">
+        <label for="customerPhone">Phone Number:</label>
+        <input type="tel" id="customerPhone" placeholder="Enter phone number" required />
+    </div>
+    <div class="info-row">
+        <label for="customerAddress">Address:</label>
+        <textarea id="customerAddress" placeholder="Enter customer address" rows="2" required></textarea>
+    </div>
+    <div class="info-row">
+        <label for="vehicleModel">Vehicle Model:</label>
+        <input type="text" id="vehicleModel" placeholder="Enter vehicle model" required />
+    </div>
+    <div class="info-row">
+        <label for="billingDate">Billing Date:</label>
+        <input type="text" id="billingDate" readonly />
+    </div>
+
+    <div id="customerDetails" class="print-only">
+        <p><strong>Customer Name:</strong> <span id="printCustomerName"></span></p>
+        <p><strong>Phone Number:</strong> <span id="printCustomerPhone"></span></p>
+        <p><strong>Address:</strong> <span id="printCustomerAddress"></span></p>
+        <p><strong>Vehicle Model:</strong> <span id="printVehicleModel"></span></p>
+        <p><strong>Billing Date:</strong> <span id="printBillingDate"></span></p>
+    </div>
+
+    <section id="productSection">
+        <select id="productSelect"></select>
+        <input type="number" id="quantityInput" min="1" value="1" />
+        <button id="addButton" onclick="addToBill()">Add to Bill</button>
+    </section>
+
+    <table id="billingProducts">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price ($)</th>
+                <th>Quantity</th>
+                <th>Total ($)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+    <div id="billingTotal">Total: $0.00</div>
+
+    <div id="signatureSection">
+        <div>Ramchandra Bedge Sign</div>
+        <div>Customer Signature</div>
+    </div>
+
+    <button id="saveTransactionBtn" onclick="saveTransaction()">Save Transaction</button>
+    <button id="printBillBtn" onclick="preparePrintView(); window.print()">Print Bill</button>
+</div>
+
+<div id="transactionsSection">
+    <h2>Saved Transactions 📜</h2>
+    <table id="transactionsTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Vehicle Model</th>
+                <th>Items</th>
+                <th>Total ($)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+    <p id="noTransactionsMessage" style="display: none;">No transactions saved yet.</p>
+</div>
+
+<script>
+    const products = [
+        { name: "Engine Oil", price: 30 },
+        { name: "Brake Pads", price: 50 },
+        { name: "Tire Rotation Service", price: 20 },
+        { name: "Battery Replacement", price: 100 },
+        { name: "Air Filter", price: 15 },
+        { name: "Windshield Wipers", price: 10 },
+        { name: "Headlight Bulbs", price: 25 },
+        { name: "Fuel Filter", price: 18 }
+    ];
+
+    const productSelect = document.getElementById('productSelect');
+    const quantityInput = document.getElementById('quantityInput');
+    const billingBody = document.querySelector('#billingProducts tbody');
+    const billingTotal = document.getElementById('billingTotal');
+    const transactionsTableBody = document.querySelector('#transactionsTable tbody');
+    const noTransactionsMessage = document.getElementById('noTransactionsMessage');
+
+    let billItems = [];
+    let savedTransactions = [];
+
+    // Function to load transactions from localStorage
+    function loadTransactions() {
+        const storedTransactions = localStorage.getItem('savedTransactions');
+        if (storedTransactions) {
+            try {
+                savedTransactions = JSON.parse(storedTransactions);
+            } catch (e) {
+                console.error("Error parsing saved transactions from localStorage:", e);
+                savedTransactions = []; // Reset if data is corrupt
+            }
+        }
+    }
+
+    // Function to save transactions to localStorage
+    function saveTransactionsToLocalStorage() {
+        localStorage.setItem('savedTransactions', JSON.stringify(savedTransactions));
+    }
+
+    function populateProductSelect() {
+        productSelect.innerHTML = '';
+        products.forEach((product, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `${product.name} - $${product.price.toFixed(2)}`;
+            productSelect.appendChild(option);
+        });
+    }
+
+    function addToBill() {
+        const selectedIndex = productSelect.value;
+        const qty = parseInt(quantityInput.value);
+        if (selectedIndex === '' || qty < 1 || isNaN(qty)) {
+            alert('Please select a product and enter a valid quantity.');
+            return;
+        }
+
+        const product = products[selectedIndex];
+
+        const existingIndex = billItems.findIndex(item => item.name === product.name);
+        if (existingIndex > -1) {
+            billItems[existingIndex].quantity += qty;
+            billItems[existingIndex].total = billItems[existingIndex].price * billItems[existingIndex].quantity;
+        } else {
+            billItems.push({
+                name: product.name,
+                price: product.price,
+                quantity: qty,
+                total: product.price * qty
+            });
+        }
+
+        renderBill();
+    }
+
+    function removeFromBill(index) {
+        billItems.splice(index, 1);
+        renderBill();
+    }
+
+    function renderBill() {
+        billingBody.innerHTML = '';
+        billItems.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.name}</td>
+                <td>$${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>$${item.total.toFixed(2)}</td>
+                <td><button class="remove-btn" onclick="removeFromBill(${index})">Remove</button></td>
+            `;
+            billingBody.appendChild(tr);
+        });
+
+        const total = billItems.reduce((sum, item) => sum + item.total, 0);
+        billingTotal.textContent = `Total: $${total.toFixed(2)}`;
+    }
+
+    function saveTransaction() {
+        const customerName = document.getElementById('customerName').value.trim();
+        const customerPhone = document.getElementById('customerPhone').value.trim();
+        const customerAddress = document.getElementById('customerAddress').value.trim();
+        const vehicleModel = document.getElementById('vehicleModel').value.trim();
+        const billingDate = document.getElementById('billingDate').value;
+
+        if (!customerName || !customerPhone || billItems.length === 0) {
+            alert("Please fill in customer details and add at least one product to the bill.");
+            return;
+        }
+
+        const totalAmount = billItems.reduce((sum, item) => sum + item.total, 0);
+
+        const newTransaction = {
+            customerName,
+            customerPhone,
+            customerAddress,
+            vehicleModel,
+            billingDate,
+            items: JSON.parse(JSON.stringify(billItems)), // Deep copy of bill items
+            totalAmount: totalAmount.toFixed(2),
+            timestamp: new Date().toLocaleString() // To track when it was saved
+        };
+
+        savedTransactions.push(newTransaction);
+        saveTransactionsToLocalStorage(); // Save to localStorage
+        renderTransactions(); // Display the updated list of transactions
+        clearBillingForm(); // Clear the current billing form after saving
+        alert("Transaction saved successfully! 🎉");
+    }
+
+    // New function to delete a transaction
+    function deleteTransaction(index) {
+        if (confirm("Are you sure you want to delete this transaction?")) {
+            savedTransactions.splice(index, 1); // Remove from array
+            saveTransactionsToLocalStorage(); // Update localStorage
+            renderTransactions(); // Re-render the table
+            alert("Transaction deleted successfully.");
+        }
+    }
+
+    function renderTransactions() {
+        transactionsTableBody.innerHTML = ''; // Clear previous transactions
+        
+        if (savedTransactions.length === 0) {
+            noTransactionsMessage.style.display = 'block';
+            document.getElementById('transactionsTable').style.display = 'none'; // Hide table if no transactions
+            return;
+        } else {
+            noTransactionsMessage.style.display = 'none';
+            document.getElementById('transactionsTable').style.display = 'table'; // Show table if there are transactions
+        }
+
+        savedTransactions.forEach((transaction, index) => {
+            const tr = document.createElement('tr');
+            const itemsListHtml = transaction.items.map(item =>
+                `<li>${item.name} (Qty: ${item.quantity}) - $${item.total.toFixed(2)}</li>`
+            ).join('');
+
+            tr.innerHTML = `
+                <td>${transaction.billingDate}</td>
+                <td>${transaction.customerName}</td>
+                <td>${transaction.customerPhone}</td>
+                <td>${transaction.vehicleModel}</td>
+                <td><ul class="item-list">${itemsListHtml}</ul></td>
+                <td>$${transaction.totalAmount}</td>
+                <td><button class="delete-transaction-btn" onclick="deleteTransaction(${index})">Delete</button></td>
+            `;
+            transactionsTableBody.appendChild(tr);
+        });
+    }
+
+    function clearBillingForm() {
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerPhone').value = '';
+        document.getElementById('customerAddress').value = '';
+        document.getElementById('vehicleModel').value = '';
+        billItems = []; // Clear current bill items
+        renderBill(); // Re-render the bill to show it's empty
+        setBillingDate(); // Set current date for the new bill
+    }
+
+    function preparePrintView() {
+        document.getElementById('printCustomerName').textContent = document.getElementById('customerName').value;
+        document.getElementById('printCustomerPhone').textContent = document.getElementById('customerPhone').value;
+        document.getElementById('printCustomerAddress').textContent = document.getElementById('customerAddress').value;
+        document.getElementById('printVehicleModel').textContent = document.getElementById('vehicleModel').value;
+        document.getElementById('printBillingDate').textContent = document.getElementById('billingDate').value;
+    }
+
+    function setBillingDate() {
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+        document.getElementById('billingDate').value = formattedDate;
+    }
+
+    // Initialize on page load
+    populateProductSelect();
+    renderBill();
+    setBillingDate();
+    loadTransactions(); // Load transactions from local storage when the page loads
+    renderTransactions(); // Render any previously saved transactions on load
+</script>
+
+</body>
+</html>

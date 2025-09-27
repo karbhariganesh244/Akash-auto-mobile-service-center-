@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Only Gallery</title>
+   <link rel="icon" href="./favicon.png">
+  <link rel="stylesheet" href="Gallery.css" />
+</head>
+<body>
+  <header>
+    <h1>View User Gallery</h1>
+  </header>
+
+  <main>
+    <section>
+      <div id="userListViewOnly" class="user-list"></div>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const STORAGE_KEY = 'sharedGalleryImages';
+      const container = document.getElementById('userListViewOnly');
+      const uploads = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+      if (uploads.length === 0) {
+        container.innerHTML = '<p>No images uploaded yet.</p>';
+        return;
+      }
+
+      uploads.forEach((user) => {
+        const card = document.createElement('div');
+        card.className = 'user-card';
+
+        const img = document.createElement('img');
+        img.src = user.image;
+        img.alt = user.name;
+
+        const name = document.createElement('p');
+        name.textContent = user.name;
+
+        card.appendChild(img);
+        card.appendChild(name);
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

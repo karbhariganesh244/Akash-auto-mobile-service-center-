@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Honda Motorcycles</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafc;
+      color: #222;
+      padding: 40px 20px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8rem;
+      color: #c8102e; /* Honda Red */
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(200, 16, 46, 0.15);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: default;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 30px rgba(200, 16, 46, 0.3);
+      transform: translateY(-8px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+
+    .card-content {
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .card-content h3 {
+      color: #9e0b1e;
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .card-content p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 25px 10px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+      }
+
+      .card-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .card-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Honda Motorcycles</h1>
+    <div class="grid">
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h6.png" alt="Honda Shine" />
+        <div class="card-content">
+          <h3>Honda Shine</h3>
+          <p>A popular commuter motorcycle known for its practicality and fuel economy.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h5.png" alt="Honda SP 125" />
+        <div class="card-content">
+          <h3>Honda SP 125</h3>
+          <p>A stylish and feature-rich motorcycle aimed at younger riders.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h4.png" alt="Honda Unicorn" />
+        <div class="card-content">
+          <h3>Honda Unicorn</h3>
+          <p>Another popular commuter bike, known for its comfort and smooth ride.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h3.png" alt="Honda Hornet 2.0" />
+        <div class="card-content">
+          <h3>Honda Hornet 2.0</h3>
+          <p>A sporty motorcycle with aggressive styling and a powerful engine.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h1.png" alt="Honda CB300R" />
+        <div class="card-content">
+          <h3>Honda CB300R</h3>
+          <p>A sporty naked bike with a modern design and agile handling.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="../img/services.img/hondai/h2.png" alt="Honda CB350" />
+        <div class="card-content">
+          <h3>Honda CB350</h3>
+          <p>A retro-styled motorcycle with a classic design and modern features.</p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+</body>
+</html>

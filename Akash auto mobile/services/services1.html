@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Services</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafc;
+      color: #222;
+      padding: 40px 20px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8rem;
+      color: #0d6efd; /* Primary Blue */
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 30px rgba(13, 110, 253, 0.3);
+      transform: translateY(-8px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-content h3 {
+      color: #0d6efd;
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .card-content p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .card-content h3 {
+        font-size: 1.4rem;
+      }
+
+      .card-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Our Premium Service</h1>
+    <article class="card">
+      <img src="../img/services.img/maintenance.jpg" alt="Two-Wheeler Service" />
+      <div class="card-content">
+        <h3>Bike Maintenance & Servicing</h3>
+        <p>We provide professional bike maintenance and repair services using genuine parts and trained mechanics. Whether it's a routine check-up, oil change, or full engine repair — our team ensures your bike stays in top shape for safe and smooth rides.</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

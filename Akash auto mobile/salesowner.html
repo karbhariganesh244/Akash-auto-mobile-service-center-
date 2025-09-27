@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Vehicles</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      border-radius: 10px;
+      border: 2px solid #003366;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ffcc00;
+      color: #003366;
+    }
+    #msg {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .vehicle-list {
+      max-width: 900px;
+      margin: auto;
+    }
+    .vehicle-card {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #333366;
+      padding: 16px;
+      margin-top: 10px;
+      border-radius: 8px;
+      gap: 16px;
+    }
+    .vehicle-card img {
+      width: 180px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid #003366;
+    }
+    .action-btns {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .edit-btn,
+    .delete-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .edit-btn {
+      background: #0077cc;
+      color: white;
+    }
+    .delete-btn {
+      background: #cc0000;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Add or Edit Vehicle</h2>
+  <form id="vehicle-form">
+    <input type="hidden" id="edit-index" />
+    <label for="service">Service Name:</label>
+    <input type="text" id="service" required />
+
+    <label for="model">Vehicle Model:</label>
+    <input type="text" id="model" required />
+
+    <label for="year">Year:</label>
+    <input type="number" id="year" required />
+
+    <label for="price">Price (₹):</label>
+    <input type="number" id="price" required />
+
+    <label for="desc">Description:</label>
+    <textarea id="desc" required></textarea>
+
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" accept="image/*" />
+
+    <button type="submit">Save Vehicle</button>
+    <div id="msg"></div>
+  </form>
+
+  <div class="vehicle-list" id="vehicle-list"></div>
+
+  <script>
+    const form = document.getElementById("vehicle-form");
+    const msg = document.getElementById("msg");
+    const vehicleList = document.getElementById("vehicle-list");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const service = document.getElementById("service").value.trim();
+      const model = document.getElementById("model").value.trim();
+      const year = document.getElementById("year").value.trim();
+      const price = document.getElementById("price").value.trim();
+      const desc = document.getElementById("desc").value.trim();
+      const photoFile = document.getElementById("photo").files[0];
+      const editIndex = document.getElementById("edit-index").value;
+
+      if (!service || !model || !year || !price || !desc) {
+        msg.style.color = "red";
+        msg.textContent = "Please fill all fields.";
+        return;
+      }
+
+      const vehicle = { model, year, price, description: desc };
+
+      if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          vehicle.photo = reader.result;
+          saveVehicle(service, vehicle, editIndex);
+        };
+        reader.readAsDataURL(photoFile);
+      } else {
+        vehicle.photo = null;
+        saveVehicle(service, vehicle, editIndex);
+      }
+    });
+
+    function getAllVehicles() {
+      return JSON.parse(localStorage.getItem("vehiclesData") || "{}");
+    }
+
+    function saveAllVehicles(data) {
+      localStorage.setItem("vehiclesData", JSON.stringify(data));
+    }
+
+    function saveVehicle(service, vehicle, editIndex) {
+      const allVehicles = getAllVehicles();
+      if (!allVehicles[service]) allVehicles[service] = [];
+
+      if (editIndex !== "") {
+        allVehicles[service][editIndex] = vehicle;
+        msg.style.color = "green";
+        msg.textContent = "Vehicle updated successfully!";
+      } else {
+        allVehicles[service].push(vehicle);
+        msg.style.color = "green";
+        msg.textContent = "Vehicle added successfully!";
+      }
+
+      saveAllVehicles(allVehicles);
+      form.reset();
+      document.getElementById("edit-index").value = "";
+      renderVehicles();
+    }
+
+    function renderVehicles() {
+      vehicleList.innerHTML = "";
+      const allVehicles = getAllVehicles();
+
+      Object.entries(allVehicles).forEach(([service, vehicles]) => {
+        vehicles.forEach((vehicle, index) => {
+          const card = document.createElement("div");
+          card.className = "vehicle-card";
+
+          // Content container for text
+          const content = document.createElement("div");
+          content.innerHTML = `
+            <strong>Service:</strong> ${service}<br>
+            <strong>Model:</strong> ${vehicle.model}<br>
+            <strong>Year:</strong> ${vehicle.year}<br>
+            <strong>Price:</strong> ₹${vehicle.price}<br>
+            <strong>Description:</strong> ${vehicle.description}
+          `;
+
+          // Append image on left if exists
+          if (vehicle.photo) {
+            const img = document.createElement("img");
+            img.src = vehicle.photo;
+            img.alt = vehicle.model;
+            card.appendChild(img);
+          }
+
+          // Append the content on right
+          card.appendChild(content);
+
+          // Action buttons container
+          const actions = document.createElement("div");
+          actions.className = "action-btns";
+
+          const editBtn = document.createElement("button");
+          editBtn.className = "edit-btn";
+          editBtn.textContent = "Edit";
+          editBtn.onclick = () => editVehicle(service, index);
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "delete-btn";
+          deleteBtn.textContent = "Delete";
+          deleteBtn.onclick = () => deleteVehicle(service, index);
+
+          actions.append(editBtn, deleteBtn);
+          card.appendChild(actions);
+
+          vehicleList.appendChild(card);
+        });
+      });
+    }
+
+    function editVehicle(service, index) {
+      const allVehicles = getAllVehicles();
+      const vehicle = allVehicles[service][index];
+
+      document.getElementById("service").value = service;
+      document.getElementById("model").value = vehicle.model;
+      document.getElementById("year").value = vehicle.year;
+      document.getElementById("price").value = vehicle.price;
+      document.getElementById("desc").value = vehicle.description;
+      document.getElementById("edit-index").value = index;
+
+      msg.style.color = "blue";
+      msg.textContent = "Editing vehicle...";
+    }
+
+    function deleteVehicle(service, index) {
+      const allVehicles = getAllVehicles();
+      if (confirm("Are you sure you want to delete this vehicle?")) {
+        allVehicles[service].splice(index, 1);
+        if (allVehicles[service].length === 0) {
+          delete allVehicles[service];
+        }
+        saveAllVehicles(allVehicles);
+        renderVehicles();
+        msg.style.color = "green";
+        msg.textContent = "Vehicle deleted successfully!";
+      }
+    }
+
+    renderVehicles();
+  </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employee Manager</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f6f8;
+      color: #333;
+    }
+    header {
+      margin-bottom: 20px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 16px;
+      background: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    button:hover:not([disabled]) {
+      background: #0056b3;
+    }
+    button[disabled] {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+      user-select: none;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    form input, form select {
+      padding: 8px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    form button {
+      padding: 8px 18px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    form button:hover {
+      background-color: #218838;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    }
+    small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.8em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <button onclick="showSection('employees')">Employees</button>
+  <button onclick="showSection('attendance')">Attendance</button>
+  <button onclick="exportToExcel()">Download Excel</button>
+</header>
+
+<!-- Employee Section -->
+<section id="employees" class="section">
+  <h2>Employee List</h2>
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Salary</th>
+        <th>Advance</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Add Employee</h3>
+  <form id="employeeForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="text" id="phone" placeholder="Phone" required />
+    <input type="number" id="salary" placeholder="Salary" required />
+    <input type="number" id="advance" placeholder="Advance" required />
+    <button type="submit">Add</button>
+  </form>
+</section>
+
+<!-- Attendance Section -->
+<section id="attendance" class="section" style="display:none;">
+  <h2>Attendance Sheet</h2>
+
+  <label for="attendanceDate">Select Date: </label>
+  <input type="date" id="attendanceDate" max="" required />
+  
+  <form id="attendanceForm" style="margin-top: 10px;">
+    <table id="attendanceFormTable" style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Employee Name</th>
+          <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Attendance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows dynamically created -->
+      </tbody>
+    </table>
+    <button type="submit" style="margin-top: 10px; padding:8px 16px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer;">Save Attendance</button>
+  </form>
+
+  <h3 style="margin-top:30px;">Attendance Summary</h3>
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Present Days</th>
+        <th>Absent Days</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<!-- SheetJS for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+  let employees = [];
+  let attendanceHistory = {}; // { employeeName: { date: 'Present'|'Absent' } }
+
+  function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    document.getElementById(sectionId).style.display = 'block';
+
+    if (sectionId === 'attendance') {
+      updateAttendanceForm();
+      updateAttendanceTable();
+      // Set max date to today for date input
+      const dateInput = document.getElementById('attendanceDate');
+      const today = new Date().toISOString().slice(0,10);
+      dateInput.max = today;
+      dateInput.value = today;
+    }
+    if (sectionId === 'employees') {
+      loadEmployees();
+    }
+  }
+
+  // Load employees into employee table with delete button disabled if attendance exists
+  function loadEmployees() {
+    const tbody = document.querySelector('#employeeTable tbody');
+    tbody.innerHTML = '';
+    employees.forEach((emp, index) => {
+      const hasAttendance = attendanceHistory[emp.name] && Object.keys(attendanceHistory[emp.name]).length > 0;
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${emp.name}</td>
+        <td>${emp.email}</td>
+        <td>${emp.phone}</td>
+        <td contenteditable="true" onblur="updateSalary(${index}, this.textContent)">${emp.salary}</td>
+        <td contenteditable="true" onblur="updateAdvance(${index}, this.textContent)">${emp.advance}</td>
+        <td>
+          ${hasAttendance
+            ? '<button disabled title="Cannot delete employee with attendance records" style="background:#6c757d; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:not-allowed;">Delete</button>'
+            : `<button onclick="deleteEmployee(${index})" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>`
+          }
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function updateSalary(index, value) {
+    const val = parseFloat(value);
+    if (!isNaN(val)) employees[index].salary = val;
+    else alert('Invalid salary');
+  }
+
+  function updateAdvance(index, value) {
+    const val = parseFloat(value);
+    if (!isNaN(val)) employees[index].advance = val;
+    else alert('Invalid advance');
+  }
+
+  // Add employee
+  document.getElementById('employeeForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const salary = parseFloat(document.getElementById('salary').value);
+    const advance = parseFloat(document.getElementById('advance').value);
+
+    if (employees.some(e => e.name.toLowerCase() === name.toLowerCase())) {
+      alert("Employee with this name already exists.");
+      return;
+    }
+
+    employees.push({name, email, phone, salary, advance});
+    attendanceHistory[name] = {}; // Initialize empty attendance for new employee
+
+    e.target.reset();
+    loadEmployees();
+  });
+
+  // Delete employee with attendance check
+  function deleteEmployee(index) {
+    if (confirm("Are you sure you want to delete this employee?")) {
+      const name = employees[index].name;
+      // Double check if attendance exists (extra safety)
+      if (attendanceHistory[name] && Object.keys(attendanceHistory[name]).length > 0) {
+        alert("Cannot delete employee with attendance records.");
+        return;
+      }
+      employees.splice(index, 1);
+      delete attendanceHistory[name];
+      loadEmployees();
+      updateAttendanceForm();
+      updateAttendanceTable();
+    }
+  }
+
+  // Update attendance form rows based on selected date and employees
+  function updateAttendanceForm() {
+    const date = document.getElementById('attendanceDate').value;
+    const tbody = document.querySelector('#attendanceFormTable tbody');
+    tbody.innerHTML = '';
+
+    if (!date) return;
+
+    employees.forEach(emp => {
+      const tr = document.createElement('tr');
+
+      // Get existing attendance for that employee on the selected date
+      const status = attendanceHistory[emp.name]?.[date] || '';
+
+      tr.innerHTML = `
+        <td style="padding:8px; border-bottom:1px solid #ccc;">${emp.name}</td>
+        <td style="padding:8px; border-bottom:1px solid #ccc;">
+          <select name="attendanceStatus" data-emp="${emp.name}" required>
+            <option value="">-- Select --</option>
+            <option value="Present" ${status === 'Present' ? 'selected' : ''}>Present</option>
+            <option value="Absent" ${status === 'Absent' ? 'selected' : ''}>Absent</option>
+          </select>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Listen for date change to update attendance form rows
+  document.getElementById('attendanceDate').addEventListener('change', () => {
+    updateAttendanceForm();
+  });
+
+  // Submit attendance form and save/update attendance per employee per date
+  document.getElementById('attendanceForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const date = document.getElementById('attendanceDate').value;
+    if (!date) {
+      alert('Please select a date first.');
+      return;
+    }
+
+    const selects = document.querySelectorAll('#attendanceFormTable select[name="attendanceStatus"]');
+    let anyMissing = false;
+
+    selects.forEach(select => {
+      const empName = select.dataset.emp;
+      const status = select.value;
+
+      if (!status) anyMissing = true;
+
+      if (!attendanceHistory[empName]) attendanceHistory[empName] = {};
+
+      // Save or update the status for the employee for the selected date
+      attendanceHistory[empName][date] = status;
+    });
+
+    if (anyMissing) {
+      alert('Please select attendance status for all employees.');
+      return;
+    }
+
+    updateAttendanceTable();
+    alert('Attendance saved successfully.');
+  });
+
+  // Update attendance summary table aggregating attendanceHistory data
+  function updateAttendanceTable() {
+    const tbody = document.querySelector('#attendanceTable tbody');
+    tbody.innerHTML = '';
+
+    employees.forEach(emp => {
+      const records = attendanceHistory[emp.name] || {};
+      let presentCount = 0;
+      let absentCount = 0;
+      let presentDates = [];
+      let absentDates = [];
+
+      Object.entries(records).forEach(([date, status]) => {
+        if (status === 'Present') {
+          presentCount++;
+          presentDates.push(date);
+        } else if (status === 'Absent') {
+          absentCount++;
+          absentDates.push(date);
+        }
+      });
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${emp.name}</td>
+        <td>
+          ${presentCount} <br />
+          <small style="color:#28a745;">${presentDates.join(", ")}</small>
+        </td>
+        <td>
+          ${absentCount} <br />
+          <small style="color:#dc3545;">${absentDates.join(", ")}</small>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Export to Excel including attendance dates
+  function exportToExcel() {
+    const empData = employees.map(emp => ({
+      Name: emp.name,
+      Email: emp.email,
+      Phone: emp.phone,
+      Salary: emp.salary,
+      Advance: emp.advance
+    }));
+
+    // Aggregate attendance data per employee
+    const attendanceData = employees.map(emp => {
+      const records = attendanceHistory[emp.name] || {};
+      let presentCount = 0;
+      let absentCount = 0;
+      let presentDates = [];
+      let absentDates = [];
+
+      Object.entries(records).forEach(([date, status]) => {
+        if (status === 'Present') {
+          presentCount++;
+          presentDates.push(date);
+        } else if (status === 'Absent') {
+          absentCount++;
+          absentDates.push(date);
+        }
+      });
+
+      return {
+        Name: emp.name,
+        Present_Days: presentCount,
+        Present_Dates: presentDates.join(", "),
+        Absent_Days: absentCount,
+        Absent_Dates: absentDates.join(", ")
+      };
+    });
+
+    const wb = XLSX.utils.book_new();
+    const wsEmp = XLSX.utils.json_to_sheet(empData);
+    const wsAttend = XLSX.utils.json_to_sheet(attendanceData);
+
+    XLSX.utils.book_append_sheet(wb, wsEmp, 'Employees');
+    XLSX.utils.book_append_sheet(wb, wsAttend, 'Attendance');
+
+    XLSX.writeFile(wb, 'Employee_Attendance_Data.xlsx');
+  }
+
+  // Initialize
+  window.onload = () => {
+    showSection('employees');
+  };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Two-Wheeler Services - Akash Auto</title>
+  <link rel="stylesheet" href="./Services.css" />
+  <link rel="icon" href="./favicon.png" />
+  <style>
+    a{
+      color: red;
+      font-weight: 800;
+      
+    }
+    a{
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="./Home.html"><--Back To Home</a>
+  <main class="services-container">
+    <h1>Our Two-Wheeler Services</h1>
+    <div class="services-grid">
+      <a href="./services/Hero_motor.html" class="service-card">Hero MotoCorp</a>
+      <a href="#" class="service-card">Royal Enfield</a>
+      <a href="./services/yamaha.html" class="service-card">Yamaha Motor</a>
+      <a href="#" class="service-card">KTM</a>
+      <a href="./services/honda.html" class="service-card">Honda Motor</a>
+      <a href="./services/scooter.html" class="service-card">Scooter</a>
+      <a href="./services/suzuki.html" class="service-card">Suzuki Motorcycle</a>
+    </div>
+    <script>// In your services.html
+function loadVehiclesFromStorage() {
+  const allVehicles = JSON.parse(localStorage.getItem('vehiclesData') || '{}');
+
+  Object.keys(allVehicles).forEach(service => {
+    addServiceCard(service);
+    displayVehiclesForService(service, allVehicles[service]);
+  });
+}
+</script>
+  </main>
+  
+</body>
+
+</html>

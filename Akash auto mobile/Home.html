@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akash Automobile Service Center</title>
+  <link rel="icon" href="./favicon.png" />
+  <link rel="stylesheet" href="./home.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <marquee class="mq" behavior="" direction="right">Welcome to Akash Automobile Service Center</marquee>
+  <header class="main-header">
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="./Home.html">Home</a></li>
+        <li><a href="./Services.html">Services</a></li>
+        <li><a href="./Gallery1.html">Gallery</a></li>
+        <li><a href="./sale.html">Sales</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <!-- <li><a href="./Product.html">Product</a></li>
+        <li><a href="./Our-services.html">Our Services</a></li>
+        <li><a href="./Billing.html">Billing</a></li>
+      </ul> -->
+      
+    </nav>
+    <button><a href="./index.html">Login</a></button>
+  </header>
+  
+<img height=450px width="100%" src="./img/m7.png" alt="">
+    <script>const slidesContainer = document.querySelector('.slides');
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    // Update slide position and active dot
+    function updateSlider(index) {
+      // Limit index boundaries
+      if (index < 0) index = totalSlides - 1;
+      else if (index >= totalSlides) index = 0;
+
+      slidesContainer.style.transform = `translateX(-${index * 100}%)`;
+
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+
+      currentIndex = index;
+    }
+
+    // Auto slide every 4 seconds
+    let slideInterval = setInterval(() => {
+      updateSlider(currentIndex + 1);
+    }, 4000);
+
+    // Click event on dots to jump to a slide
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        clearInterval(slideInterval); // Stop auto sliding when user manually selects
+        updateSlider(parseInt(dot.getAttribute('data-index')));
+        // Resume auto sliding with delay
+        slideInterval = setInterval(() => updateSlider(currentIndex + 1), 4000);
+      });
+    });
+
+    // Initialize slider
+    updateSlider(0);
+  </script>
+  <main class="main-content">
+    <h1>General Maintenance:</h1>
+    <section class="services-grid">
+      <div class="cards">
+        <img src="./img/gm.img/g1.png" alt="Engine Oil Icon">
+        <h2>Engine Oil:</h2>
+        <p>Checking and replacing engine oil, as well as checking its condition.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/gm.img/gm2.png" alt="Air Filter Icon">
+        <h2>Air Filter:</h2>
+        <p>The AC filter also cleans the air you breathe. It not only catches dirt and dust, but it also filters out
+          mold spores, fungi, bacteria, pet fur, dander, smoke, pollutants, harmful chemicals, and more. This</p>
+      </div>
+      <div class="cards">
+        <img src="./img/gm.img/gm3.png" alt="Spark Plugs Icon">
+        <h2>Spark Plugs:</h2>
+        <p>Spark plugs ignite the air-fuel mixture in an internal combustion engine. They are crucial for creating the
+          spark that initiates combustion, which powers the engine.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/gm.img/gm4.png" alt="Fuel System Icon">
+        <h2>Fuel System:</h2>
+        <p>A Fuel Injection (FI) system in motorcycles uses electronics and sensors to precisely control the fuel flow
+          into the engine, replacing the older carburetor system.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/gm.img/gm5.png" alt="Battery Icon">
+        <h2>Battery:</h2>
+        <p>Ensure the battery is properly maintained, especially if the bike is not used frequently.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/gm.img/gm6.png" alt="Brake Service Icon">
+        <h2>Brake Service:</h2>
+        <p>Your safety is our priority. We provide comprehensive brake inspections, repairs, and replacements to keep
+          your braking system in top condition.</p>
+      </div>
+    </section>
+    <h1>Specialized Services:</h1>
+    <section class="services-grid">
+      <div class="cards">
+        <img src="./img/ss.img/ss1.png" alt="Engine Overhaul Icon">
+        <h2>Engine Overhaul:</h2>
+        <p>An engine overhaul for a two-wheeler, also known as an engine rebuild or reconditioning, is a comprehensive
+          process involving the disassembly, inspection, cleaning, repair, and replacement of worn or damaged engine
+          components. </p>
+      </div>
+      <div class="cards">
+        <img src="./img/ss.img/ss2.png" alt="Clutch and Transmission Icon">
+        <h2>Clutch and Transmission:</h2>
+        <p>the clutch and transmission work together to transfer power from the engine to the rear wheel. </p>
+      </div>
+      <div class="cards">
+        <img src="./img/ss.img/ss3.png" alt="Suspension Icon">
+        <h2>Suspension:</h2>
+        <p>The two most common types of suspension systems used in modern vehicles are independent suspension and solid
+          axle suspension.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/ss.img/ss4.png" alt="Tyre Service Icon">
+        <h2>Tyre and Wheel Care:</h2>
+        <p>This includes regular checks for tire pressure and tread wear, cleaning, and potentially wheel balancing or
+          alignment, depending on the vehicle and usage.
+        </p>
+      </div>
+    </section>
+
+    <h1>Other Services:</h1>
+    <section class="services-grid">
+      <div class="cards">
+        <img src="./img/ot.img/ot1.png" alt="Wash and Detailing Icon">
+        <h2>Wash and Detailing:</h2>
+        <p>Cleaning and polishing the exterior of the motorcycle.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/ot.img/ot2.png" alt="Spare Parts Replacement Icon">
+        <h2>Spare Parts Replacement:</h2>
+        <p>Replacing any worn or damaged parts.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/ot.img/ot3.png" alt="Doorstep Service Icon">
+        <h2>Doorstep Service:</h2>
+        <p>Providing service at the customer's location.</p>
+      </div>
+      <div class="cards">
+        <img src="./img/ot.img/ot4.png" alt="Genuine Parts Icon">
+        <h2>Genuine Parts:</h2>
+        <p>Using only original equipment manufacturer (OEM) or high-quality replacement parts.</p>
+      </div>
+    </section>
+
+    <h1>Why Choose Us?</h1>
+    <section class="services-grid why-choose-us-grid">
+      <div class="cards">
+
+        <h2>Quality Service</h2>
+        <p>We are committed to providing the highest quality service to our customers. Our experienced technicians use
+          the best tools and techniques to ensure your vehicle is in top condition.</p>
+      </div>
+      <div class="cards">
+        <h2>Affordable Prices</h2>
+        <p>We believe that quality service should be affordable. We offer competitive pricing without compromising on
+          the quality of our work.</p>
+      </div>
+      <div class="cards">
+
+        <h2>Excellent Customer Service</h2>
+        <p>Our friendly staff is always ready to assist you with any questions or concerns. We value your feedback and
+          strive to improve our services continuously.</p>
+      </div>
+    </section>
+    <div class="content-section">
+      <h3>Overview</h3>
+      <p>Aakash Service Center in Keshav Nagar-Mundhwa, Pune is a renowned automobile repair service, providing expert
+        vehicle maintenance and repair solutions. Known for its reliable services and customer-first approach, this
+        repair center has become a trusted destination for vehicle owners looking for high-quality automotive care.</p>
+
+<h3>Services Offered</h3>
+ <p>Aakash Service Center in Keshav Nagar-Mundhwa, Pune offers a full spectrum of automobile repair services designed to address every aspect of vehicle maintenance and repair. Whether you're dealing with a minor issue or need a more extensive repair, this center has the expertise to handle it. </p> <p> In addition to these services, Aakash Service Center in Keshav Nagar-Mundhwa, Pune specializes in Garages. Whether you're dealing with a routine issue or something more complex, Aakash Service Center in Keshav Nagar-Mundhwa, Pune has everything you need to keep your vehicle in top condition.</p>
+
+      <h3>Establishment Details</h3>
+      <p>Established in 2017, Aakash Service Center in Keshav Nagar-Mundhwa, Pune has built a solid reputation for
+        quality work and customer satisfaction. The repair center is rated 4.7 based on 89 customer reviews, making it
+        one of the most reliable automotive repair shops in the area. Conveniently located near Near New Orbis School,
+        Aakash Service Center in Keshav Nagar-Mundhwa, Pune is easily accessible for drivers looking for expert vehicle
+        care.</p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="./feedback.html">Feedback</a></li>
+          <li><a href="./help.html">Help?</a></li>
+          <!-- <li><a href="./devloper.html">Team</a></li> -->
+          <li><a href="./services.html">Services</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact-us">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-phone-alt"></i> <a href="tel:+917987185354">+91-7987185354</a></p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:ramchandrabedge79@gmail.com">ramchandrabedge79@gmail.com</a>
+        </p>
+        <p>
+          <a href="https://maps.app.goo.gl/fbdWtbchU8VbZCTG9?g_st=aw" target="_blank" rel="noopener noreferrer"
+            style="color:inherit; text-decoration:none;">
+            <i class="fas fa-map-marker-alt"></i> Manjari Rd, near graffiti society, Ward No 2, Keshav Nagar, Mundhwa,
+            Pune, Maharashtra 411036
+          </a>
+        </p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="flex">
+          <a href="https://www.facebook.com" target="_blank" title="Facebook" class="bg-white">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com" target="_blank" title="Instagram" class="bg-white">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://maps.app.goo.gl/fbdWtbchU8VbZCTG9?g_st=aw" target="_blank" title="Location" class="bg-white">
+            <i class="fas fa-map-marker-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="mb-2">Total Visitors: <span id="visitor-count">0</span></p>
+      <p>&copy; 2025 Akash Automobile Service Center. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    window.onload = function () {
+      const visitorCountElem = document.getElementById('visitor-count');
+      if (visitorCountElem) {
+        let count = localStorage.getItem('visitorCount');
+        if (!count) {
+          count = 0;
+        }
+        count = parseInt(count, 10) + 1;
+        localStorage.setItem('visitorCount', count);
+        visitorCountElem.textContent = count;
+      }
+    };
+  </script>
+  
+
+
+
+  <script src="./home.js"></script>
+</body>
+
+</html>

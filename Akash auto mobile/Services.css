@@ -1,0 +1,79 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #222;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+/* Container */
+.services-container {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Heading */
+.services-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+/* Grid Layout */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 28px;
+  padding: 0 10px;
+}
+
+/* Service Cards */
+.service-card {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15);
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease,
+    transform 0.3s ease;
+  user-select: none;
+}
+
+/* Hover and Focus Effect */
+.service-card:hover,
+.service-card:focus {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(0, 123, 255, 0.4);
+  transform: translateY(-6px);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Responsive Typography */
+@media (max-width: 480px) {
+  .services-container h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .service-card {
+    font-size: 1rem;
+    padding: 22px 15px;
+  }
+}

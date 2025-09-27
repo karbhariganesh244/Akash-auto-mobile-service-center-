@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feedback - Akash Automobile Service Center</title>
+ <link rel="stylesheet" href="./feedback.css">
+  <link rel="icon" href="./favicon.png">
+</head>
+<body>
+
+  <section class="feedback-section">
+    <h2>Share Your Feedback</h2>
+    <p>We'd love to hear about your experience with Akash Automobile Service Center!</p>
+
+    <form id="feedbackForm" class="feedback-form" action="#" method="POST">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="service">Service Received (Optional):</label>
+        <select id="service" name="service">
+          <option value="">Select a service</option>
+          <option value="Oil Change">Oil Change</option>
+          <option value="Tire Rotation">Tire Rotation</option>
+          <option value="Brake Inspection">Brake Inspection</option>
+          <option value="Full Service">Full Service</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="rating">Overall Rating:</label>
+        <div class="stars">
+          <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">&#9733;</label>
+          <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">&#9733;</label>
+          <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">&#9733;</label>
+          <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">&#9733;</label>
+          <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">&#9733;</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="comments">Your Feedback:</label>
+        <textarea id="comments" name="comments" rows="5" placeholder="Tell us what you liked or how we can improve..." required></textarea>
+      </div>
+      <button type="submit" class="submit-button">Submit Feedback</button>
+    </form>
+
+    <section class="feedback-list" id="feedbackList">
+      <h2>Previous Feedback</h2>
+      <!-- Feedback entries will appear here -->
+      <p id="noFeedbackMsg">No feedback submitted yet.</p>
+    </section>
+  </section>
+
+  <script>
+    const form = document.getElementById('feedbackForm');
+    const feedbackList = document.getElementById('feedbackList');
+    const noFeedbackMsg = document.getElementById('noFeedbackMsg');
+
+    // Load feedback from localStorage
+    function loadFeedback() {
+      const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+      // Clear previous entries (except the h2 and noFeedbackMsg)
+      const oldFeedbackItems = feedbackList.querySelectorAll('.feedback-item');
+      oldFeedbackItems.forEach(item => item.remove());
+
+      if (feedbacks.length === 0) {
+        noFeedbackMsg.style.display = 'block';
+        return;
+      } else {
+        noFeedbackMsg.style.display = 'none';
+      }
+
+      feedbacks.forEach(fb => {
+        const item = document.createElement('div');
+        item.classList.add('feedback-item');
+
+        item.innerHTML = `
+          <h3>${escapeHtml(fb.name)}</h3>
+          <div class="email">${escapeHtml(fb.email)}</div>
+          ${fb.service ? `<div class="service"><strong>Service:</strong> ${escapeHtml(fb.service)}</div>` : ''}
+          <div class="rating"><strong>Rating:</strong> ${fb.rating} &#9733;</div>
+          <div class="comments">${escapeHtml(fb.comments)}</div>
+        `;
+
+        feedbackList.appendChild(item);
+      });
+    }
+
+    // Escape HTML to prevent injection
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Handle form submit
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      // Get form values
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const service = form.service.value;
+      const rating = form.rating.value;
+      const comments = form.comments.value.trim();
+
+      if (!name || !email || !rating || !comments) {
+        alert('Please fill out all required fields including rating.');
+        return;
+      }
+
+      // Get existing feedbacks or empty array
+      const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+      // Add new feedback
+      feedbacks.push({ name, email, service, rating, comments });
+
+      // Save back to localStorage
+      localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+      // Reset form
+      form.reset();
+
+      // Reload feedback list
+      loadFeedback();
+
+      alert('Thank you for your feedback!');
+    });
+
+    // Load feedbacks when page loads
+    window.onload = loadFeedback;
+  </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yamaha Motorcycles Series</title>
+   <link rel="icon" href="./favicon.png">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      color: #222;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #005baa; /* Yamaha blue */
+      font-size: 2.8rem;
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0, 91, 170, 0.15);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      box-shadow: 0 14px 36px rgba(0, 91, 170, 0.3);
+      transform: translateY(-7px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+
+    .card-content {
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .card-content h3 {
+      color: #004080;
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .card-content p {
+      color: #444;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 25px 10px;
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+      }
+      .card-content h3 {
+        font-size: 1.2rem;
+      }
+      .card-content p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Yamaha Motorcycles Series</h1>
+    <div class="grid">
+      <article class="card">
+        <img src="https://via.placeholder.com/300x180?text=FZ-Series" alt="FZ Series" />
+        <div class="card-content">
+          <h3>FZ Series</h3>
+          <p>Includes models like the FZ-X, FZ-S FI, and FZ FI, known for their neo-retro design and rugged build.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://via.placeholder.com/300x180?text=R-Series" alt="R Series" />
+        <div class="card-content">
+          <h3>R Series</h3>
+          <p>Features models like the R15 (V4 and S) and R3, known for their sporty performance and design.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://via.placeholder.com/300x180?text=MT-Series" alt="MT Series" />
+        <div class="card-content">
+          <h3>MT Series</h3>
+          <p>Includes the MT-15 V2 and MT-03, known for their aggressive styling and powerful engines.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://via.placeholder.com/300x180?text=FZ-X+Hybrid" alt="FZ-X Hybrid" />
+        <div class="card-content">
+          <h3>FZ-X Hybrid</h3>
+          <p>Yamaha's first hybrid motorcycle in the 150cc category.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

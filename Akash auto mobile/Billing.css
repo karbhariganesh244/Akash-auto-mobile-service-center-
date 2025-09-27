@@ -1,0 +1,426 @@
+/* General Body & Typography */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #e0f2f7; /* Light blue background */
+    color: #333;
+    line-height: 1.6;
+    display: flex; /* Use flexbox for main sections */
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure full viewport height */
+}
+
+/* Main Section Containers */
+#billingSection, #transactionsSection {
+    background-color: #ffffff; /* Crisp white background */
+    padding: 35px;
+    border-radius: 12px; /* More rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Softer, more prominent shadow */
+    max-width: 900px; /* Slightly wider for better layout */
+    width: 100%; /* Ensure it takes full width up to max-width */
+    margin: 20px auto; /* Consistent margin */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+#transactionsSection {
+    max-width: 1100px; /* Even wider for the transaction table */
+    overflow-x: auto; /* Enable horizontal scrolling for the table */
+}
+
+/* Header Styling */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0; /* Slightly bolder separator */
+}
+
+header h1 {
+    color:red; /* Deep blue for main title */
+    font-size: 2.5em; /* Larger title */
+    margin-bottom: 8px;
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+}
+
+header p {
+    margin: 4px 0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+header p span {
+    color: #007bff; /* Bright blue for phone number */
+    font-weight: bold;
+}
+
+/* Form Input Rows */
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px; /* Space between label and input */
+}
+
+.info-row label {
+    flex-basis: 150px; /* Fixed width for labels */
+    font-weight: 600; /* Bolder label text */
+    color: #444;
+}
+
+.info-row input[type="text"],
+.info-row input[type="tel"],
+.info-row textarea {
+    flex: 1; /* Allows input to take remaining space */
+    padding: 12px;
+    border: 1px solid #0db6e0; /* Lighter, more appealing border */
+    border-radius: 6px;
+    font-size: 1em;
+    transition: all 0.3s ease; /* Smooth transitions for focus */
+    box-shadow: inset 0 2px 10px rgba(160, 10, 10, 0.05); /* Subtle inner shadow */
+}
+
+.info-row input[type="text"]:focus,
+.info-row input[type="tel"]:focus,
+.info-row textarea:focus {
+    border-color: #007bff; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Glow effect */
+    outline: none; /* Remove default outline */
+}
+
+.info-row textarea {
+    resize: vertical;
+    min-height: 50px;
+    max-height: 150px; /* Limit height for better layout */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Product Selection Section */
+#productSection {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #e6f7ff; /* Lightest blue for product section */
+    border-radius: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#productSelect {
+    padding: 10px;
+    border: 1px solid #a0d9e7;
+    border-radius: 6px;
+    font-size: 1em;
+    flex: 3; /* Give more space to select */
+    background-color: #f8fcff;
+    cursor: pointer;
+}
+
+#quantityInput {
+    width: 80px; /* Slightly wider for easier input */
+    padding: 10px;
+    border: 1px solid #a0d9e7;
+    border-radius: 6px;
+    font-size: 1em;
+    text-align: center;
+    flex: 1;
+}
+
+#addButton {
+    background-color: #28a745; /* Green for add button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex: 1.5;
+}
+
+#addButton:hover {
+    background-color: #218838;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Billing Products Table */
+#billingProducts {
+    width: 100%;
+    border-collapse: separate; /* Use separate for rounded corners on cells */
+    border-spacing: 0; /* Remove space between cells */
+    margin-top: 25px;
+    border-radius: 8px; /* Apply border-radius to the table itself */
+    overflow: hidden; /* Hide overflow to make border-radius work */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#billingProducts th,
+#billingProducts td {
+    border: 1px solid #f0f0f0; /* Very light border for a cleaner look */
+    padding: 12px 15px;
+    text-align: left;
+}
+
+#billingProducts thead th {
+    background-color: red; /* Blue header background */
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+#billingProducts tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Subtle zebra striping */
+}
+
+#billingProducts tbody tr:hover {
+    background-color: #eefbff; /* Lighter blue on hover */
+    cursor: default;
+}
+
+.remove-btn {
+    background-color: #dc3545; /* Red for remove button */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.remove-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Billing Total */
+#billingTotal {
+    text-align: right;
+    font-size: 1.4em; /* Larger total font */
+    font-weight: bold;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px solid #e0e0e0;
+    color: #0056b3; /* Match header color for importance */
+}
+
+/* Signature Section */
+#signatureSection {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px; /* More space */
+    padding-top: 30px;
+    border-top: 1px dashed #b0b0b0; /* Clearly dashed line */
+    font-size: 0.9em;
+    font-size: bolder;
+    color: #666;
+}
+
+#signatureSection div {
+    width: 45%;
+    text-align: center;
+    font-style: italic;
+    padding-top: 10px; /* Space for signature line */
+    border-top: 1px solid #999; /* Solid line for signature */
+}
+
+/* Action Buttons */
+#saveTransactionBtn,
+#printBillBtn {
+    background-color:green; /* Primary blue for actions */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-right: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+#saveTransactionBtn:hover,
+#printBillBtn:hover {
+    background-color:red; /* Darker shade on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Transactions Section Styling (hidden on print) */
+#transactionsSection h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: blue;
+    font-size: 2em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+#transactionsTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#transactionsTable th,
+#transactionsTable td {
+    border: 1px solid #f0f0f0;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 0.9em; /* Slightly smaller for dense data */
+}
+
+#transactionsTable thead th {
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#transactionsTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#transactionsTable tbody tr:hover {
+    background-color: #eefbff;
+}
+
+.item-list {
+    list-style-type: disc; /* Use discs for items */
+    padding-left: 20px;
+    margin: 0;
+}
+
+.item-list li {
+    margin-bottom: 3px;
+    white-space: normal; /* Allow items to wrap */
+}
+
+.delete-transaction-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-top: 8px; /* Space from other content in cell */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-transaction-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+#noTransactionsMessage {
+    text-align: center;
+    color: #777;
+    padding: 30px;
+    font-size: 1.1em;
+    background-color: #f0f8ff; /* Lightest blue background */
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Print-specific styles */
+@media print {
+    /* Hide everything by default except the billingSection */
+    body > *:not(#billingSection) {
+        display: none !important;
+    }
+
+    #billingSection {
+        display: block !important; /* Ensure billing section is visible */
+        box-shadow: none !important; /* Remove shadows for print */
+        margin: 0 !important; /* Remove margin for print */
+        padding: 15px !important; /* Adjust padding as needed for print */
+        border: none !important; /* Remove borders if desired for print */
+        max-width: none !important; /* Allow section to take full width */
+        width: 100% !important;
+        /* Ensure content doesn't break unexpectedly */
+        page-break-after: avoid; 
+        page-break-inside: avoid;
+    }
+    
+    /* Hide interactive elements and action buttons within the billing section */
+    #billingSection button, 
+    #productSection,
+    #billingProducts thead th:last-child,
+    #billingProducts tbody tr td:last-child {
+        display: none !important;
+    }
+
+    /* Show the print-only customer details block */
+    .print-only {
+        display: block !important; /* Make the hidden customer details visible */
+        margin-bottom: 20px;
+        font-size: 0.95em;
+    }
+    .print-only p {
+        margin: 2px 0;
+    }
+
+    /* Style form inputs for printing (flat, no borders/backgrounds) */
+    input, textarea, select {
+        border: none !important;
+        background: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 1em !important;
+        -webkit-print-color-adjust: exact; /* Ensure background colors print */
+        color-adjust: exact;
+    }
+    .info-row label {
+        width: auto !important; /* Allow labels to take natural width */
+        margin-right: 5px !important;
+        font-weight: normal !important;
+    }
+
+    /* Adjust signature section for print */
+    #signatureSection {
+        display: flex !important;
+        justify-content: space-around !important;
+        margin-top: 50px !important;
+        padding-top: 20px !important;
+        border-top: 1px dashed #000 !important; /* Solid line for print */
+    }
+    #signatureSection div {
+        border-top: 1px solid black !important;
+        padding-top: 5px !important;
+        width: 30% !important;
+        text-align: center !important;
+    }
+
+    /* Ensure text colors are black for better readability on print */
+    header h1, header p, #billingTotal, #transactionsSection h2 {
+        color: #000 !important; 
+    }
+    
+    /* Ensure table borders are visible and clean for print */
+    #billingProducts {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        border-radius: 0 !important;
+    }
+    #billingProducts th, #billingProducts td {
+        border: 1px solid #ddd !important;
+        padding: 8px !important;
+    }
+}

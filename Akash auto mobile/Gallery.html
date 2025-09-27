@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Gallery - Full Control</title>
+  <link rel="stylesheet" href="Gallery.css" />
+   <link rel="icon" href="./favicon.png">
+</head>
+<body>
+  <header>
+    <h1>User Gallery</h1>
+    <button id="toggleUploadBtn">Upload Your Image</button>
+  </header>
+
+  <main>
+    <form id="uploadForm" style="display: none;">
+      <label for="username">Your Name:</label><br>
+      <input type="text" id="username" required /><br><br>
+
+      <label for="userImage">Select an Image:</label><br>
+      <input type="file" id="userImage" accept="image/*" required /><br><br>
+
+      <button type="submit">Upload</button>
+    </form>
+
+    <div id="uploadedUsers">
+      <h2>Uploaded Users</h2>
+      <div class="user-list" id="userList"></div>
+    </div>
+  </main>
+
+  <script src="Gallery.js"></script>
+</body>
+</html>
